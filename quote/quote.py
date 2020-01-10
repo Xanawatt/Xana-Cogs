@@ -36,7 +36,8 @@ class Quote(commands.Cog):
 			for line in lines:
 				if 'barlow_emote' in line:
 					line = line.replace('barlow_emote', self.barlow_emote)
-					list.append(line)
+
+				list.append(line)
 
 		self.quote_list = list  # The above code could be changed to a method, but I couldn't figure out how
 		self.bot = bot
