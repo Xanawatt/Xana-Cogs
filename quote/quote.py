@@ -79,7 +79,7 @@ class Quote(commands.Cog):
 		else:
 			# Gets a specific quote from quote_list based on quote_id
 			ctx.channel.send(quote_id)
-			if quote_id > len(self.quote_list) or quote_id < 0:
+			if quote_id >= len(self.quote_list) or quote_id < 0:
 				# Fill this in with an actual error message
 				return "That quote does not exist"
 			else:
