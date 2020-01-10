@@ -73,7 +73,7 @@ class Quote(commands.Cog):
 		message += "Quote list:" + "\n" + "```" + "\n"
 
 		for index, quote in enumerate(self.quote_list):
-			message += str(index) + ". " + quote
+			message += "\n" + str(index) + ". " + quote
 
 		message += "```"
 		await self.send_message(ctx.channel, message, delay=0)
