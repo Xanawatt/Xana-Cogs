@@ -69,7 +69,7 @@ class Quote(commands.Cog):
 	@commands.command(name="listquotes")
 	async def quote_list(self, ctx):
 		message = ""
-		message += "Quote list: + \n + ``` + \n"
+		message += "Quote list:" + "\n" + "```" + "\n"
 
 		for index, quote in enumerate(self.quote_list):
 			message += str(index) + ". " + quote.replace("barlow_emote", self.barlow_emote) + "\n"
