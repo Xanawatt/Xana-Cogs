@@ -18,22 +18,23 @@ quote_list = ['"YEE-HAW" ' + barlow_emote,
 '''
 
 
-def import_file(file):
-	with open(file, encoding="utf8") as f:
-		lines = f.readlines()
-		list = []
-		for line in lines:
-			if 'barlow_emote' in line:
-				line = line.replace('barlow_emote', barlow_emote)
-				list.append(line)
-
-	return list
 
 
 class Quote(commands.Cog):
 	"""My custom cog"""
 	# Add the ability to add and remove quotes by command
-	
+
+	def import_file(self, file):
+		with open(file, encoding="utf8") as f:
+			lines = f.readlines()
+			list = []
+			for line in lines:
+				if 'barlow_emote' in line:
+					line = line.replace('barlow_emote', barlow_emote)
+					list.append(line)
+
+		return list
+
 	def __init__(self, bot):
 		"""Set up the plugin"""
 		super().__init__()
