@@ -25,6 +25,14 @@ class Quote(commands.Cog):
 	# Add the ability to add and remove quotes by command
 
 	def import_file(self, file):
+
+
+	def __init__(self, bot):
+		"""Set up the plugin"""
+		super().__init__()
+		self.quote_file = 'quotes.txt'
+		self.barlow_emote = '<:barlow:615621843130253314>'
+
 		with open(file, encoding="utf8") as f:
 			lines = f.readlines()
 			list = []
@@ -33,14 +41,7 @@ class Quote(commands.Cog):
 					line = line.replace('barlow_emote', barlow_emote)
 					list.append(line)
 
-		return list
-
-	def __init__(self, bot):
-		"""Set up the plugin"""
-		super().__init__()
-		self.quote_file = 'quotes.txt'
-		self.barlow_emote = '<:barlow:615621843130253314>'
-		self.quote_list = import_file(quote_file)
+		self.quote_list = list  # The above code could be changed to a method, but I couldn't figure out how
 		self.bot = bot
 
 	# @commands.group()
