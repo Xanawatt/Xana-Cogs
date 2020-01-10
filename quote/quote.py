@@ -27,7 +27,7 @@ class Quote(commands.Cog):
 	def __init__(self, bot):
 		"""Set up the plugin"""
 		super().__init__()
-		self.quote_file = '/home/xanawatt/Xana-Cogs/quote/quote.txt'  # Change to relative path later
+		self.quote_file = '/home/xanawatt/Xana-Cogs/quote/quotes.txt'  # Change to relative path later
 		self.barlow_emote = '<:barlow:615621843130253314>'
 
 		with open(self.quote_file, encoding="utf8") as f:
