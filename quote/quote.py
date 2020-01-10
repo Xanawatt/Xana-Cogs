@@ -60,7 +60,7 @@ class Quote(commands.Cog):
 		with open(self.quote_file, 'w', encoding="utf8") as f:
 			f.write("\n" + quote_to_add)
 
-		return True  # To appease await signal
+		return quote_to_add  # To appease await signal
 
 	"""
 	# @quote.command(name="list")
