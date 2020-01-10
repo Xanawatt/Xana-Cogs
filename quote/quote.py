@@ -58,7 +58,7 @@ class Quote(commands.Cog):
 
 
 	def save_quote_to_file(self, quote_to_add):
-		with open(self.quote_file, 'w', encoding="utf8") as f:
+		with open(self.quote_file, 'a', encoding="utf8") as f:
 			f.write("\n" + quote_to_add)
 
 		return quote_to_add  # To appease await signal
