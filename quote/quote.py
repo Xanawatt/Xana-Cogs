@@ -53,7 +53,8 @@ class Quote(commands.Cog):
 	@commands.command(name="addquote")
 	async def quote_add(self, ctx, *, quote_to_add: str):
 		self.quote_list.append(quote_to_add)
-		await self.save_quote_to_file(quote_to_add)
+		self.save_quote_to_file(quote_to_add)
+		await self.send_message(ctx.channel, "Added the quote: `" + quote_to_add + "`")
 
 
 	def save_quote_to_file(self, quote_to_add):
