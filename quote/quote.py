@@ -30,12 +30,12 @@ class Quote(commands.Cog):
 		self.quote_file = 'quotes.txt'
 		self.barlow_emote = '<:barlow:615621843130253314>'
 
-		with open(file, encoding="utf8") as f:
+		with open(self.quote_file, encoding="utf8") as f:
 			lines = f.readlines()
 			list = []
 			for line in lines:
 				if 'barlow_emote' in line:
-					line = line.replace('barlow_emote', barlow_emote)
+					line = line.replace('barlow_emote', self.barlow_emote)
 					list.append(line)
 
 		self.quote_list = list  # The above code could be changed to a method, but I couldn't figure out how
