@@ -1,4 +1,4 @@
-from redbot.core import commands
+from redbot.core import commands, checks
 import discord
 import asyncio
 import random
@@ -50,7 +50,9 @@ class Quote(commands.Cog):
 	async def quote_random(self, ctx):
 		await self.send_message(ctx.channel, self.get_quote(ctx, None))
 
+
 	@commands.command(name="addquote")
+	@checks.mod_or_permissions(administrator=True)
 	async def quote_add(self, ctx, *, quote_to_add: str):
 		self.quote_list.append(quote_to_add)
 		self.save_quote_to_file(quote_to_add)
@@ -71,7 +73,7 @@ class Quote(commands.Cog):
 		message += "Quote list:" + "\n" + "```" + "\n"
 
 		for index, quote in enumerate(self.quote_list):
-			message += str(index) + ". " + quote
+			message += "\n" + str(index) + ". " + quote
 
 		message += "```"
 		await self.send_message(ctx.channel, message, delay=0)
