@@ -61,8 +61,7 @@ class Quote(commands.Cog):
 		await ctx.maybe_send_embed(quote_list)
 	"""
 
-	@staticmethod
-	def get_quote(ctx, quote_id):
+	def get_quote(self, ctx, quote_id):
 		"""Get a random quote or supply a quote_id to get a quote"""
 		if quote_id is None:
 			# Get a random quote from quote_list
