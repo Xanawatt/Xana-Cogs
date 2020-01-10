@@ -73,6 +73,8 @@ class Quote(commands.Cog):
 
 		for index, quote in enumerate(self.quote_list):
 			message += str(index) + ". " + quote.replace("barlow_emote", self.barlow_emote) + "\n"
+
+		message += "```"
 		await self.send_message(ctx.channel, message, delay=0)
 
 
