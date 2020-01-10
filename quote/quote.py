@@ -34,8 +34,7 @@ class Quote(commands.Cog):
 			lines = f.readlines()
 			list = []
 			for line in lines:
-				if 'barlow_emote' in line:
-					line = line.replace('barlow_emote', self.barlow_emote)
+				line = line.replace('barlow_emote', self.barlow_emote)
 
 				list.append(line)
 
@@ -72,7 +71,7 @@ class Quote(commands.Cog):
 		message += "Quote list:" + "\n" + "```" + "\n"
 
 		for index, quote in enumerate(self.quote_list):
-			message += str(index) + ". " + quote.replace("barlow_emote", self.barlow_emote) + "\n"
+			message += str(index) + ". " + quote
 
 		message += "```"
 		await self.send_message(ctx.channel, message, delay=0)
