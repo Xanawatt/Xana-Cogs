@@ -24,9 +24,6 @@ class Quote(commands.Cog):
 	"""My custom cog"""
 	# Add the ability to add and remove quotes by command
 
-	def import_file(self, file):
-
-
 	def __init__(self, bot):
 		"""Set up the plugin"""
 		super().__init__()
