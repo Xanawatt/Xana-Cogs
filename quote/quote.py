@@ -34,8 +34,7 @@ class Quote(commands.Cog):
 			lines = f.readlines()
 			list = []
 			for line in lines:
-				if 'barlow_emote' in line:
-					line = line.replace('barlow_emote', self.barlow_emote)
+				line = line.replace('barlow_emote', self.barlow_emote)
 
 				list.append(line)
 
@@ -64,12 +63,19 @@ class Quote(commands.Cog):
 
 		return quote_to_add  # To appease await signal
 
-	"""
+
 	# @quote.command(name="list")
 	@commands.command(name="listquotes")
 	async def quote_list(self, ctx):
-		await ctx.maybe_send_embed(quote_list)
-	"""
+		message = ""
+		message += "Quote list:" + "\n" + "```" + "\n"
+
+		for index, quote in enumerate(self.quote_list):
+			message += str(index) + ". " + quote
+
+		message += "```"
+		await self.send_message(ctx.channel, message, delay=0)
+
 
 	def get_quote(self, ctx, quote_id):
 		"""Get a random quote or supply a quote_id to get a quote"""
@@ -87,7 +93,7 @@ class Quote(commands.Cog):
 				return self.quote_list[quote_id]
 
 
-	async def send_message(self, channel: discord.TextChannel, message: str):
+	async def send_message(self, channel: discord.TextChannel, message: str, delay=0.01):
 		"""
 		Send a mwessage to a channew.
 		Wiww send a typing indicatow, and wiww wait a vawiabwe amount of time
@@ -95,7 +101,7 @@ class Quote(commands.Cog):
 		"""
 		try:
 			async with channel.typing():
-				await asyncio.sleep(len(message) * 0.01)
+				await asyncio.sleep(len(message) * delay)
 				await self.bot.send_filtered(channel, content=message)
 		except discord.Forbidden:
 			pass  # Not awwowed to send mwessages in dis channel
