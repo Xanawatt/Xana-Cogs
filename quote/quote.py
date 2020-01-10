@@ -67,7 +67,7 @@ class Quote(commands.Cog):
 		if quote_id is None:
 			# Get a random quote from quote_list
 			random_int = random.randint(0, len(quote_list))
-			return quote_list[random_int]
+			return self.quote_list[random_int]
 		else:
 			# Gets a specific quote from quote_list based on quote_id
 			ctx.channel.send(quote_id)
@@ -75,7 +75,7 @@ class Quote(commands.Cog):
 				# Fill this in with an actual error message
 				return "That quote does not exist"
 			else:
-				return quote_list[quote_id]
+				return self.quote_list[quote_id]
 
 
 	async def send_message(self, channel: discord.TextChannel, message: str):
