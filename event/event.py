@@ -3,11 +3,7 @@ import discord
 import asyncio
 import random
 
-
-# quote_file = "quotes.txt"
-# barlow_emote = '<:barlow:615621843130253314>'
-
-'''
+barlow_emote = '<:barlow:615621843130253314>'
 quote_list = ['"YEE-HAW" ' + barlow_emote,
 				'"BAZINGA!" ' + barlow_emote,
 				'"Questions, comments, concerns, threats of violence, offers of bribes?" ' + barlow_emote,
@@ -15,7 +11,7 @@ quote_list = ['"YEE-HAW" ' + barlow_emote,
 				'"Ya' + 'll a bunch of dummies" ' + barlow_emote,
 				'"Keep your hands off my attributes"' + barlow_emote
 				]
-'''
+
 
 class Quote(commands.Cog):
 	"""My custom cog"""
@@ -24,23 +20,7 @@ class Quote(commands.Cog):
 	def __init__(self, bot):
 		"""Set up the plugin"""
 		super().__init__()
-		self.quote_file = 'quotes.txt'
-		self.barlow_emote = '<:barlow:615621843130253314>'
-		self.quote_list = import_file(quote_file)
 		self.bot = bot
-
-	def import_file(self, file):
-		with open(quote_file, encoding="utf8") as f:
-			lines = f.readlines()
-			list = []
-			for line in lines:
-				if 'barlow_emote' in line:
-					line = line.replace('barlow_emote', barlow_emote)
-					list.append(line)
-
-
-
-
 
 	# @commands.group()
 	@commands.command()
