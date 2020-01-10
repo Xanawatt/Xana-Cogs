@@ -48,8 +48,10 @@ class Quote(commands.Cog):
 		await self.send_message(ctx.channel, self.get_quote(ctx, quote_id))
 
 	@commands.command(name="randomquote")
+	@checks.mod_or_permissions(administrator=True)
 	async def quote_random(self, ctx):
 		await self.send_message(ctx.channel, self.get_quote(ctx, None))
+
 
 	@commands.command(name="addquote")
 	async def quote_add(self, ctx, *, quote_to_add: str):
