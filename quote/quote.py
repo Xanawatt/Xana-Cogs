@@ -52,7 +52,7 @@ class Quote(commands.Cog):
 
 	@commands.command(name="addquote")
 	async def quote_add(self, ctx, *, quote_to_add: str):
-		save_quote_to_file()
+		save_quote_to_file(quote_to_add)
 		await self.quote_list.append(quote_to_add)
 
 
@@ -72,7 +72,7 @@ class Quote(commands.Cog):
 		"""Get a random quote or supply a quote_id to get a quote"""
 		if quote_id is None:
 			# Get a random quote from quote_list
-			random_int = random.randint(0, len(quote_list))
+			random_int = random.randint(0, len(self.quote_list))
 			return self.quote_list[random_int]
 		else:
 			# Gets a specific quote from quote_list based on quote_id
