@@ -29,13 +29,13 @@ class Quote(commands.Cog):
 		super().__init__()
 		self.quote_file = '/home/xanawatt/Xana-Cogs/quote/quotes.txt'  # Change to relative path later
 		self.barlow_emote = '<:barlow:615621843130253314>'
-
+		self.hands_emote = '<:hands:642387366388170752>'
 		with open(self.quote_file, encoding="utf8") as f:
 			lines = f.readlines()
 			list = []
 			for line in lines:
 				line = line.replace('barlow_emote', self.barlow_emote)
-
+				line = line.replace('hands_emote', self.hands_emote)
 				list.append(line)
 
 		self.quote_list = list  # The above code could be changed to a method, but I couldn't figure out how

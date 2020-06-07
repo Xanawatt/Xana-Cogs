@@ -2,7 +2,17 @@
 "BAZINGA!" barlow_emote
 "Questions, comments, concerns, threats of violence, offers of bribes?" barlow_emote
 "mmmhh" barlow_emote
-"Ya'll a bunch of dummies" barlow_emote
 "Keep your hands off my attributes" barlow_emote
-
-this is another test
+"Ya'll a bunch of dummies" barlow_emote
+“Jack Schitt!” barlow_emote
+"Too early?" barlow_emote
+"If you want to use Moon Moon as your textbook I don't give a fuck, but the book and edition in the syllabus is the only one I recommend" barlow_emote
+"flu shot" barlow_emote
+"If you are omitting answers, we got other problems" barlow_emote
+"There's like 5 or 3 layers I don't care" barlow_emote
+"Batch, batch, batch, that's all you do" barlow_emote
+"We chop up a file into little pieces called packets" barlow_emote
+"How quickly can you drink that drink?" barlow_emote
+"Who in here has got a big mouth?" ~Deadman 2019
+"Bow before me, for I am root" hands_emote
+"Sudo bang bang" hands_emote
