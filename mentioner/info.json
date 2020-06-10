@@ -1,0 +1,11 @@
+{
+  "author": ["Xanawatt (Xanawatt#8420)"],
+  "min_bot_version": "3.0.2",
+  "description": "This will make it so that when a set number of roles is pinged, it will be checked if there are people in the role and if not, send a sad message.",
+  "hidden": false,
+  "install_msg": "Thank you for installing Mentioner!",
+  "required_cogs": {},
+  "requirements": {},
+  "short": "Mentioner",
+  "tags": {}
+}
