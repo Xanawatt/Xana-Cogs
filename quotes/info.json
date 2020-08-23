@@ -1,0 +1,12 @@
+{
+    "name" : "Quotes",
+    "author" : "Xanawatt,
+    "short" : "Record and save your favorite quotes",
+    "description" : "A collection of tools for recording arbitrary text quotes. Currently provides the ability to get a quote by index, get a random quote, list all quotes and add, edit, and delete quotes.",
+    "install_msg" : "Thank you for installing! If you encounter any problems, I am in the official Red discord server @Xanawatt#8365. Feel free to Dm aswell.",
+    "tags": [],
+    "disabled" : false,
+    "hidden" : false,
+    "min_bot_version": "3.3.12"
+    "end_user_data_statement": "This cog does not persistently store data or metadata about users."
+}
