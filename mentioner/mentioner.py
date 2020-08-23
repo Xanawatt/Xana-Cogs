@@ -72,7 +72,7 @@ class Mentioner(commands.Cog):
 		pass
 	
 	@checks.mod_or_permissions(manage_channels=True)
-	@mentionset.command(name="add")
+	@mentionset.command()
 	async def mentionset_add(self, ctx, *, channel_id:int):
 		"""Add a channel to get ignored"""
 		async with self.config.ignored_channels() as ignored_channels:
@@ -80,7 +80,7 @@ class Mentioner(commands.Cog):
 		await send_message(ctx, "The " + str(channel_id) + " channel was ignored.")
 	
 	@checks.mod_or_permissions(manage_channels=True)
-	@mentionset.command(name="remove")
+	@mentionset.command()
 	async def mentionset_remove(self, ctx, *, channel_id:int):
 		"""Remove a channel that was previously ignored"""
 		async with self.config.ignored_channels() as ignored_channels:
