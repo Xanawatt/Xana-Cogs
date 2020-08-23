@@ -9,19 +9,13 @@ import random
 #  Per guild support
 
 class Quotes(commands.Cog):
-	"""My custom cog"""
-	# Add the ability to add and remove quotes by command
-
+	"""A quote Cog"""
 	def __init__(self, bot):
 		"""Set up the plugin"""
 		super().__init__()
 		self.config = Config.get_conf(self, identifier=1234567890)
 		default_global = {
-			"quote_list": ["test quote", "another quote"],
-			"emotes": {
-				"barlow_emote": '<:barlow:615621843130253314>',
-				"hands_emote": '<:hands:642387366388170752>'
-			}
+			"quote_list": [],
 		}
 		self.config.register_global(**default_global)
 		self.bot = bot
