@@ -30,7 +30,7 @@ class Mentioner(commands.Cog):
 		self.restart = True
 		self.defaultrole = "New"
 		self._session = aiohttp.ClientSession()
-		self.config = Config.get_conf(self, identifier=1234567890)
+		self.config = Config.get_conf(self, identifier=0030466642)
 		default_global = {
 			"ignored_channels": [],
 		}
@@ -69,11 +69,12 @@ class Mentioner(commands.Cog):
 	@checks.mod_or_permissions(manage_channels=True)
 	@commands.group()
 	async def mentionset(self, ctx):
+		"""Mentioner settings"""
 		pass
 	
 	@checks.mod_or_permissions(manage_channels=True)
 	@mentionset.command()
-	async def mentionset_add(self, ctx, *, channel_id:int):
+	async def add(self, ctx, *, channel_id:int):
 		"""Add a channel to get ignored"""
 		async with self.config.ignored_channels() as ignored_channels:
 			ignored_channels.append(channel_id)
@@ -81,11 +82,11 @@ class Mentioner(commands.Cog):
 	
 	@checks.mod_or_permissions(manage_channels=True)
 	@mentionset.command()
-	async def mentionset_remove(self, ctx, *, channel_id:int):
+	async def remove(self, ctx, *, channel_id:int):
 		"""Remove a channel that was previously ignored"""
 		async with self.config.ignored_channels() as ignored_channels:
 			ignored_channels.remove(channel_id)
-		await ctx.send("The " + str(channel_id)+ " channel was removed.")
+		await send_message(ctx, "The " + str(channel_id)+ " channel was removed.")
 
 	async def listener(self, message):
 		if message.channel.id in (await self.config.ignored_channels()):
