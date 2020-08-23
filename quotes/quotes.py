@@ -7,6 +7,7 @@ import random
 #  standardize quote symbols
 #  embed listquotes
 #  Per guild support
+#  Add pagination for quote list
 
 class Quotes(commands.Cog):
 	"""A quote Cog"""

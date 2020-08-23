@@ -16,7 +16,8 @@ import textwrap
 import random
 
 
-
+# TODO:
+#  Don't mention in certain channels
 
 
 
@@ -29,6 +30,11 @@ class Mentioner(commands.Cog):
         self.restart = True
         self.defaultrole = "New"
         self._session = aiohttp.ClientSession()
+		self.config = Config.get_conf(self, identifier=1234567890)
+		default_global = {
+			"ignored_channels": [],
+		}
+		self.config.register_global(**default_global)
 
     def cog_unload(self):
         self.bot.remove_listener(self.listener)
@@ -59,8 +65,27 @@ class Mentioner(commands.Cog):
             ]:
                 self.restart = False
             await asyncio.sleep(30)
+	
+	@checks.mod_or_permissions(manage_channels=True)
+	@commands.group(name="mentionset")
+	async def mentionset(self, ctx):
+		pass
+		
+	async def mentionset_add(self, ctx, *, channel_id:int):
+		"""Add a channel to get ignored"""
+		async with self.config.ignored_channels() as ignored_channels:
+			ignored_channels.append(channel_id)
+		await send_message(ctx, "The " + str(channel_id) + " channel was ignored.")
+		
+	async def mentionset_remove(self, ctx, *, channel_id:int):
+		"""Remove a channel that was previously ignored"""
+		async with self.config.ignored_channels() as ignored_channels:
+			ignored_channels.remove(channel_id)
+		await ctx.send("The " + str(channel_id)+ " channel was removed.")
 
     async def listener(self, message):
+		if message.channel.id in (await self.config.ignored_channels()):
+			return
         if type(message.author) != discord.Member:
             # throws an error when webhooks talk, this fixes it
             return
@@ -101,3 +126,12 @@ class Mentioner(commands.Cog):
             else:
                 await message.channel.send(str(member_count) + " user(s) were notified.")
                 return
+
+	async def send_message(self, channel: discord.TextChannel, message: str, delay=0.01):
+		"""Sends a message to a channel with discord.typing()"""
+		try:
+			async with channel.typing():
+				await asyncio.sleep(len(message) * delay)
+				await self.bot.send_filtered(channel, content=message)
+		except discord.Forbidden:
+			pass  # Not allowed to send messages in this channel
