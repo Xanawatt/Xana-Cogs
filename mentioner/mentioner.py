@@ -37,7 +37,6 @@ class Mentioner(commands.Cog):
 		self.config.register_global(**default_global)
 
 	def cog_unload(self):
-		self.bot.remove_listener(self.listener)
 		asyncio.get_event_loop().create_task(self._session.close())
 		self.loop.cancel()
 
@@ -78,7 +77,7 @@ class Mentioner(commands.Cog):
 		"""Add a channel to get ignored"""
 		async with self.config.ignored_channels() as ignored_channels:
 			ignored_channels.append(channel_id)
-		await send_message(ctx, "The " + str(channel_id) + " channel was ignored.")
+		await self.send_message(ctx, "The " + str(channel_id) + " channel was ignored.")
 	
 	@checks.mod_or_permissions(manage_channels=True)
 	@mentionset.command()
@@ -86,9 +85,10 @@ class Mentioner(commands.Cog):
 		"""Remove a channel that was previously ignored"""
 		async with self.config.ignored_channels() as ignored_channels:
 			ignored_channels.remove(channel_id)
-		await send_message(ctx, "The " + str(channel_id)+ " channel was removed.")
+		await self.send_message(ctx, "The " + str(channel_id)+ " channel was removed.")
 
-	async def listener(self, message):
+	@commands.Cog.listener()
+	async def on_message(self, message):
 		if message.channel.id in (await self.config.ignored_channels()):
 			return
 		if type(message.author) != discord.Member:
