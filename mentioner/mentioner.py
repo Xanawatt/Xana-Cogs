@@ -30,7 +30,7 @@ class Mentioner(commands.Cog):
 		self.restart = True
 		self.defaultrole = "New"
 		self._session = aiohttp.ClientSession()
-		self.config = Config.get_conf(self, identifier=0030466642)
+		self.config = Config.get_conf(self, identifier=30466642)
 		default_global = {
 			"ignored_channels": [],
 		}
