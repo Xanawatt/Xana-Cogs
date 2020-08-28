@@ -65,12 +65,12 @@ class Quotes(commands.Cog):
 	async def delete(self, ctx, quote_id: int):
 		"""Deletes a quote given an index and moves up the quotes after, changing their indecies"""
 		quote_list_before = await self.config.quote_list()
-		if quote_id >= len(quote_list):
+		if quote_id >= len(quote_list_before):
 			await self.send_message(ctx.channel, '`Quote #' + str(quote_id) + '` does not exist.')
 		else:
 			async with self.config.quote_list() as quote_list:
 				quote_list.pop(quote_id)
-			await self.send_message(ctx.channel, 'Quote #' + str(quote_id) + ': `' + quote_list[quote_id] + '` was deleted.')
+			await self.send_message(ctx.channel, 'Quote #' + str(quote_id) + ': `' + quote_list_before[quote_id] + '` was deleted.')
 
 	@checks.mod_or_permissions(manage_channels=True)
 	@quotes.command()
