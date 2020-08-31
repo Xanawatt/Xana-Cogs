@@ -92,7 +92,7 @@ class Mentioner(commands.Cog):
 		"""Remove a channel that was previously ignored"""
 		async with self.config.guild(ctx.guild).ignored_channels() as ignored_channels:
 			if channel_id not in ignored_channels:
-				return
+				return # should probably say that that channel wasn't being ignored already
 			ignored_channels.remove(channel_id)
 		await self.send_message(ctx, "The " + str(channel_id)+ " channel was removed.")
 
@@ -115,7 +115,7 @@ class Mentioner(commands.Cog):
 			member_count = 0
 			for member in role.members:
 				member_count += 1
-			if len(role.members) <= 1:
+			if len(role.members) < 1:
 				async with message.channel.typing():
 					# do expensive stuff here
 					await self.send_message(message.channel, f"There's nobody else in the {role.name} role :(")
