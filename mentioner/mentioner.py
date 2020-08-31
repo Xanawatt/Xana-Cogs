@@ -81,6 +81,8 @@ class Mentioner(commands.Cog):
 	async def add(self, ctx, *, channel_id:int):
 		"""Add a channel to get ignored"""
 		async with self.config.guild(ctx.guild).ignored_channels() as ignored_channels:
+			if channel_id in ignored_channels:
+				return # should probably send a message that this channel is already being ignored
 			ignored_channels.append(channel_id)
 		await self.send_message(ctx, "The " + str(channel_id) + " channel was ignored.")
 	
@@ -89,6 +91,8 @@ class Mentioner(commands.Cog):
 	async def remove(self, ctx, *, channel_id:int):
 		"""Remove a channel that was previously ignored"""
 		async with self.config.guild(ctx.guild).ignored_channels() as ignored_channels:
+			if channel_id not in ignored_channels:
+				return
 			ignored_channels.remove(channel_id)
 		await self.send_message(ctx, "The " + str(channel_id)+ " channel was removed.")
 
