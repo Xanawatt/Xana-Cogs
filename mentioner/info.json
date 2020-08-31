@@ -1,11 +1,13 @@
 {
-  "author": ["Xanawatt (Xanawatt#8420)"],
-  "min_bot_version": "3.0.2",
-  "description": "This will make it so that when a set number of roles is pinged, it will be checked if there are people in the role and if not, send a sad message.",
-  "hidden": false,
-  "install_msg": "Thank you for installing Mentioner!",
-  "required_cogs": {},
-  "requirements": {},
-  "short": "Mentioner",
-  "tags": {}
+	"author": [
+		"Xanawatt (Xanawatt#8365)"
+	],
+	"name": "Mentioner",
+	"description": "When a role is pinged, give a notice about how many users were pinged as well as optionally dm'ing users in addition.",
+	"short": "Let people know how many people they pinged.",
+	"hidden": false,
+	"disabled": false,
+	"min_bot_version": "3.3.12",
+	"install_msg": "Thank you for installing Mentioner! If you have any problems or suggestions, please open an issue or find me on the Red discord server @Xanawatt#8365",
+	"end_user_data_statement": "This cog does not persistently store data or metadata about users."
 }
