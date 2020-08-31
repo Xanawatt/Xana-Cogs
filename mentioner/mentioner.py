@@ -80,16 +80,13 @@ class Mentioner(commands.Cog):
 	@mentionset.command()
 	async def add(self, ctx, channel):
 		"""Add a channel to get ignored"""
-		skip = False
-		if ctx.message.channel_mentions is not None:
+		if ctx.message.channel_mentions is not None and ctx.guild.get_channel(channel) is None:
 			channel_object = channel
-			skip = True
-		
-		if ctx.guild.get_channel(channel) is not None and skip is False:
+		elif ctx.message.channel_mentions is None and ctx.guild.get_channel(channel) is not None:
 			channel_object = ctx.guild.get_channel(channel)
-		else: 
+		else: # both are none
 			await self.send_message(ctx, f"`{str(channel)}` is not a channel.")
-			return
+			return # channel doesn't exist
 
 		async with self.config.guild(ctx.guild).ignored_channels() as ignored_channels:
 			if channel_object in ignored_channels:
@@ -102,17 +99,14 @@ class Mentioner(commands.Cog):
 	@mentionset.command()
 	async def remove(self, ctx, channel):
 		"""Remove a channel that was previously ignored"""
-		skip = False
-		if ctx.message.channel_mentions is not None:
+		if ctx.message.channel_mentions is not None and ctx.guild.get_channel(channel) is None:
 			channel_object = channel
-			skip = True
-		
-		if ctx.guild.get_channel(channel) is not None and skip is False:
+		elif ctx.message.channel_mentions is None and ctx.guild.get_channel(channel) is not None:
 			channel_object = ctx.guild.get_channel(channel)
-		else: 
+		else: # both are none
 			await self.send_message(ctx, f"`{str(channel)}` is not a channel.")
-			return
-
+			return # channel doesn't exist
+			
 		async with self.config.guild(ctx.guild).ignored_channels() as ignored_channels:
 			if channel_object not in ignored_channels:
 				await self.send_message(ctx, f"The {channel_object.mention} channel is already being ignored.")
