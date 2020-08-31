@@ -100,7 +100,7 @@ class Mentioner(commands.Cog):
 	
 	@checks.mod_or_permissions(manage_channels=True)
 	@mentionset.command()
-	async def remove(self, ctx, channel:int):
+	async def remove(self, ctx, channel):
 		"""Remove a channel that was previously ignored"""
 		skip = False
 		if ctx.message.channel_mentions is not None:
