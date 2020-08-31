@@ -101,6 +101,7 @@ class Mentioner(commands.Cog):
 		"""Remove a channel that was previously ignored"""
 		if ctx.message.channel_mentions is not None and ctx.guild.get_channel(channel) is None:
 			channel_object = channel
+			await send_message(ctx, "I got here")
 		elif ctx.message.channel_mentions is None and ctx.guild.get_channel(channel) is not None:
 			channel_object = ctx.guild.get_channel(channel)
 		else: # both are none
@@ -109,7 +110,7 @@ class Mentioner(commands.Cog):
 			
 		async with self.config.guild(ctx.guild).ignored_channels() as ignored_channels:
 			if channel_object not in ignored_channels:
-				await self.send_message(ctx, f"The {channel_object.mention} channel is already being ignored.")
+				await self.send_message(ctx, f"The {channel_object.mention} channel was not being ignored.")
 				return
 			ignored_channels.remove(channel_object)
 		await self.send_message(ctx, f"The {channel_object.mention} channel will no longer be ignored.")
