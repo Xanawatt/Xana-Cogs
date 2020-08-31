@@ -34,7 +34,12 @@ class Mentioner(commands.Cog):
 		default_global = {
 			"ignored_channels": [],
 		}
+		default_guild = {
+			"ignored_channels": [],
+		}
 		self.config.register_global(**default_global)
+		self.config.register_guild(**default_guild)
+		
 
 	def cog_unload(self):
 		asyncio.get_event_loop().create_task(self._session.close())
@@ -75,7 +80,7 @@ class Mentioner(commands.Cog):
 	@mentionset.command()
 	async def add(self, ctx, *, channel_id:int):
 		"""Add a channel to get ignored"""
-		async with self.config.ignored_channels() as ignored_channels:
+		async with self.config.guild(ctx.guild).ignored_channels() as ignored_channels:
 			ignored_channels.append(channel_id)
 		await self.send_message(ctx, "The " + str(channel_id) + " channel was ignored.")
 	
@@ -83,13 +88,13 @@ class Mentioner(commands.Cog):
 	@mentionset.command()
 	async def remove(self, ctx, *, channel_id:int):
 		"""Remove a channel that was previously ignored"""
-		async with self.config.ignored_channels() as ignored_channels:
+		async with self.config.guild(ctx.guild).ignored_channels() as ignored_channels:
 			ignored_channels.remove(channel_id)
 		await self.send_message(ctx, "The " + str(channel_id)+ " channel was removed.")
 
 	@commands.Cog.listener()
 	async def on_message(self, message):
-		if message.channel.id in (await self.config.ignored_channels()):
+		if message.channel.id in (await self.config.guild(ctx.guild).ignored_channels()):
 			return
 		if type(message.author) != discord.Member:
 			# throws an error when webhooks talk, this fixes it
@@ -98,7 +103,6 @@ class Mentioner(commands.Cog):
 			return
 		if message.author.bot:
 			return
-
 		if message.role_mentions is None:
 			return
 		
@@ -107,10 +111,10 @@ class Mentioner(commands.Cog):
 			member_count = 0
 			for member in role.members:
 				member_count += 1
-			if len(role.members) < 1:
+			if len(role.members) <= 1:
 				async with message.channel.typing():
 					# do expensive stuff here
-					await message.channel.send(f"There's nobody else in the {role.name} role :(")
+					await self.send_message(message.channel, f"There's nobody else in the {role.name} role :(")
 					return
 
 			num_tutors = 0
@@ -124,12 +128,12 @@ class Mentioner(commands.Cog):
 							dmchannel = await member.create_dm()
 							await dmchannel.send(f'{message.author} needs your help in {message.channel.mention}!')						
 						except AttributeError:
-							await message.channel.send('failed to send dm')
+							await self.send_message(message.channel, 'failed to send dm') # This error should probably be logged instead of sent in a channel
 			if num_tutors > 0:
-				await message.channel.send(str(member_count) + " user(s) were notified; " + tutor_list + "was notified via DM.")
+				await self.send_message(message.channel, str(member_count) + " user(s) were notified; " + tutor_list + "was notified via DM.")
 				return
 			else:
-				await message.channel.send(str(member_count) + " user(s) were notified.")
+				await self.send_message(message.channel, str(member_count) + " user(s) were notified.")
 				return
 
 	async def send_message(self, channel: discord.TextChannel, message: str, delay=0.01):
