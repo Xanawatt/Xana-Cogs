@@ -99,6 +99,17 @@ class Mentioner(commands.Cog):
 	@mentionset.command()
 	async def remove(self, ctx, channel):
 		"""Remove a channel that was previously ignored"""
+		try:
+			channel_object = ctx.guild.get_channel(int(channel))
+		except ValueError:
+			if len(ctx.message.channel_mentions) > 0:
+				for channel in ctx.message.channel_mentions:
+				channel_object = channel
+				break # only get the first, may change this later
+			else: # must have entered a string
+				await self.send_message(ctx, f"`{str(channel)}` is not a channel.")
+				return # channel doesn't exist
+		"""
 		if len(ctx.message.channel_mentions) > 0 and ctx.guild.get_channel(int(channel)) is None:
 			for channel in ctx.message.channel_mentions:
 				channel_object = channel
@@ -109,7 +120,8 @@ class Mentioner(commands.Cog):
 			await self.send_message(ctx, str(ctx.guild.get_channel(int(channel))))
 			await self.send_message(ctx, f"`{str(channel)}` is not a channel.")
 			return # channel doesn't exist
-			
+		"""
+		
 		async with self.config.guild(ctx.guild).ignored_channels() as ignored_channels:
 			if channel_object not in ignored_channels:
 				await self.send_message(ctx, f"The {channel_object.mention} channel was not being ignored.")
