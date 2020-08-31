@@ -94,7 +94,7 @@ class Mentioner(commands.Cog):
 				return # channel doesn't exist
 
 		async with self.config.guild(ctx.guild).ignored_channels() as ignored_channels:
-			if channel_object in ignored_channels:
+			if channel_object.id in ignored_channels: # can only store ints not objects
 				await self.send_message(ctx, f"The {channel_object.mention} channel is already being ignored.")
 				return
 			ignored_channels.append(channel_object.id)
@@ -118,7 +118,7 @@ class Mentioner(commands.Cog):
 				return # channel doesn't exist
 		
 		async with self.config.guild(ctx.guild).ignored_channels() as ignored_channels:
-			if channel_object not in ignored_channels:
+			if channel_object.id not in ignored_channels: # can only store ints not objects
 				await self.send_message(ctx, f"The {channel_object.mention} channel was not being ignored.")
 				return
 			ignored_channels.remove(channel_object.id)
