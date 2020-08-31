@@ -97,7 +97,7 @@ class Mentioner(commands.Cog):
 			if channel_object in ignored_channels:
 				await self.send_message(ctx, f"The {channel_object.mention} channel is already being ignored.")
 				return
-			ignored_channels.append(channel_object)
+			ignored_channels.append(channel_object.id)
 		await self.send_message(ctx, f"The {channel_object.mention} channel was ignored.")
 	
 	@checks.mod_or_permissions(manage_channels=True)
@@ -121,12 +121,12 @@ class Mentioner(commands.Cog):
 			if channel_object not in ignored_channels:
 				await self.send_message(ctx, f"The {channel_object.mention} channel was not being ignored.")
 				return
-			ignored_channels.remove(channel_object)
+			ignored_channels.remove(channel_object.id)
 		await self.send_message(ctx, f"The {channel_object.mention} channel will no longer be ignored.")
 
 	@commands.Cog.listener()
 	async def on_message(self, message):
-		if message.channel in (await self.config.guild(message.guild).ignored_channels()):
+		if message.channel.id in (await self.config.guild(message.guild).ignored_channels()):
 			return
 		if type(message.author) != discord.Member:
 			# throws an error when webhooks talk, this fixes it
