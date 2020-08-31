@@ -1,74 +1,19 @@
-# -*- coding: utf-8 -*-
-import re
-from redbot.core import checks, Config
+from redbot.core import checks, Config, commands
 import discord
-from redbot.core import commands
-from redbot.core.data_manager import bundled_data_path
-from redbot.core.utils.menus import menu, DEFAULT_CONTROLS
 import asyncio
-import datetime
 import os
-import aiohttp
-from redbot.core.i18n import Translator, cog_i18n
-from io import BytesIO
-import functools
-import textwrap
 import random
-
-
-# TODO:
-#  Don't mention in certain channels
-
 
 
 class Mentioner(commands.Cog):
 	"""A mentioning Cog"""
-
 	def __init__(self, bot):
 		self.bot = bot
-		self.loop = self.bot.loop.create_task(self.start())
-		self.restart = True
-		self.defaultrole = "New"
-		self._session = aiohttp.ClientSession()
 		self.config = Config.get_conf(self, identifier=30466642)
-		default_global = {
-			"ignored_channels": [],
-		}
 		default_guild = {
 			"ignored_channels": [],
 		}
-		self.config.register_global(**default_global)
 		self.config.register_guild(**default_guild)
-		
-
-	def cog_unload(self):
-		asyncio.get_event_loop().create_task(self._session.close())
-		self.loop.cancel()
-
-	async def start(self):
-		await self.bot.wait_until_ready()
-		while True:
-			if not self.restart:
-				guilds = self.bot.guilds
-				for i in guilds:
-					profils = await self.profiles.data.all_members(i)
-					for j in profils.keys():
-						member = i.get_member(j)
-						if member is None:
-							await self._reset_member(i, j)
-						else:
-							await self.profiles.data.member(member).today.set(0)
-				self.restart = True
-			if datetime.datetime.now().strftime("%H:%M") in [
-				"05:00",
-				"05:01",
-				"05:02",
-				"05:03",
-				"05:04",
-				"05:05",
-			]:
-				self.restart = False
-			await asyncio.sleep(30)
 	
 	@checks.mod_or_permissions(manage_channels=True)
 	@commands.group()
@@ -77,8 +22,8 @@ class Mentioner(commands.Cog):
 		pass
 	
 	@checks.mod_or_permissions(manage_channels=True)
-	@mentionset.command()
-	async def add(self, ctx, channel):
+	@mentionset.command(name="addchannel")
+	async def add_channel(self, ctx, channel):
 		"""Add a channel to get ignored"""
 		try:
 			if ctx.guild.get_channel(int(channel)) is None:
@@ -101,8 +46,8 @@ class Mentioner(commands.Cog):
 		await self.send_message(ctx, f"The {channel_object.mention} channel was ignored.")
 	
 	@checks.mod_or_permissions(manage_channels=True)
-	@mentionset.command()
-	async def remove(self, ctx, channel):
+	@mentionset.command(name="removechannel")
+	async def remove_channel(self, ctx, channel):
 		"""Remove a channel that was previously ignored"""
 		try:
 			if ctx.guild.get_channel(int(channel)) is None:
