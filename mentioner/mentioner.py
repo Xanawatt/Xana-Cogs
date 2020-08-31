@@ -104,8 +104,8 @@ class Mentioner(commands.Cog):
 		except ValueError:
 			if len(ctx.message.channel_mentions) > 0:
 				for channel in ctx.message.channel_mentions:
-				channel_object = channel
-				break # only get the first, may change this later
+					channel_object = channel
+					break # only get the first, may change this later
 			else: # must have entered a string
 				await self.send_message(ctx, f"`{str(channel)}` is not a channel.")
 				return # channel doesn't exist
