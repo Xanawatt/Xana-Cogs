@@ -78,25 +78,47 @@ class Mentioner(commands.Cog):
 	
 	@checks.mod_or_permissions(manage_channels=True)
 	@mentionset.command()
-	async def add(self, ctx, *, channel_id:int):
+	async def add(self, ctx, channel):
 		"""Add a channel to get ignored"""
+		skip = False
+		if ctx.message.channel_mentions is not None:
+			channel_object = channel
+			skip = True
+		
+		if ctx.guild.get_channel(channel) is not None and skip is False:
+			channel_object = ctx.guild.get_channel(channel)
+		else: 
+			await self.send_message(ctx, f"`{str(channel)}` is not a channel.")
+			return
+
 		async with self.config.guild(ctx.guild).ignored_channels() as ignored_channels:
-			if channel_id in ignored_channels:
-				await self.send_message(ctx, f"The {ctx.channel.mention} channel is already being ignored.")
+			if channel_object in ignored_channels:
+				await self.send_message(ctx, f"The {channel_object.mention} channel is already being ignored.")
 				return
-			ignored_channels.append(channel_id)
-		await self.send_message(ctx, "The " + str(channel_id) + " channel was ignored.")
+			ignored_channels.append(channel_object)
+		await self.send_message(ctx, f"The {channel_object.mention} channel was ignored.")
 	
 	@checks.mod_or_permissions(manage_channels=True)
 	@mentionset.command()
-	async def remove(self, ctx, *, channel_id:int):
+	async def remove(self, ctx, channel:int):
 		"""Remove a channel that was previously ignored"""
+		skip = False
+		if ctx.message.channel_mentions is not None:
+			channel_object = channel
+			skip = True
+		
+		if ctx.guild.get_channel(channel) is not None and skip is False:
+			channel_object = ctx.guild.get_channel(channel)
+		else: 
+			await self.send_message(ctx, f"`{str(channel)}` is not a channel.")
+			return
+
 		async with self.config.guild(ctx.guild).ignored_channels() as ignored_channels:
-			if channel_id not in ignored_channels:
-				await self.send_message(ctx, f"The {ctx.channel.mention} channel is not currently being ignored.")
+			if channel_object not in ignored_channels:
+				await self.send_message(ctx, f"The {channel_object.mention} channel is already being ignored.")
 				return
-			ignored_channels.remove(channel_id)
-		await self.send_message(ctx, "The " + str(channel_id)+ " channel was removed.")
+			ignored_channels.remove(channel_object)
+		await self.send_message(ctx, f"The {channel_object.mention} channel will no longer be ignored.")
 
 	@commands.Cog.listener()
 	async def on_message(self, message):
