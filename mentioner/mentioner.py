@@ -103,7 +103,7 @@ class Mentioner(commands.Cog):
 			for channel in ctx.message.channel_mentions:
 				channel_object = channel
 				break # only get the first, may change this later
-		elif len(ctx.message.channel_mentions == 0 and ctx.guild.get_channel(channel) is not None:
+		elif len(ctx.message.channel_mentions) == 0 and ctx.guild.get_channel(channel) is not None:
 			channel_object = ctx.guild.get_channel(channel)
 		else: # both are none
 			await self.send_message(ctx, f"`{str(channel)}` is not a channel.")
