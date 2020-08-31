@@ -105,7 +105,8 @@ class Mentioner(commands.Cog):
 				break # only get the first, may change this later
 		elif len(ctx.message.channel_mentions) == 0 and ctx.guild.get_channel(channel) is not None:
 			channel_object = ctx.guild.get_channel(channel)
-		else: # both are none
+		else: # both are none or both are true
+			await self.send_message(ctx, str(ctx.guild.get_channel(channel)))
 			await self.send_message(ctx, f"`{str(channel)}` is not a channel.")
 			return # channel doesn't exist
 			
