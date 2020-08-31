@@ -132,7 +132,6 @@ class Mentioner(commands.Cog):
 		if message.role_mentions is None:
 			return
 		
-		dm_roles = await (
 		roles = message.role_mentions
 		for role in roles:
 			member_count = 0
