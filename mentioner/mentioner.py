@@ -82,7 +82,8 @@ class Mentioner(commands.Cog):
 		"""Add a channel to get ignored"""
 		async with self.config.guild(ctx.guild).ignored_channels() as ignored_channels:
 			if channel_id in ignored_channels:
-				return # should probably send a message that this channel is already being ignored
+				await self.send_message(ctx, f"The {ctx.mention} channel is already being ignored.")
+				return
 			ignored_channels.append(channel_id)
 		await self.send_message(ctx, "The " + str(channel_id) + " channel was ignored.")
 	
@@ -92,7 +93,8 @@ class Mentioner(commands.Cog):
 		"""Remove a channel that was previously ignored"""
 		async with self.config.guild(ctx.guild).ignored_channels() as ignored_channels:
 			if channel_id not in ignored_channels:
-				return # should probably say that that channel wasn't being ignored already
+				await self.send_message(ctx, f"The {ctx.mention} channel is not currently being ignored.")
+				return
 			ignored_channels.remove(channel_id)
 		await self.send_message(ctx, "The " + str(channel_id)+ " channel was removed.")
 
@@ -115,10 +117,10 @@ class Mentioner(commands.Cog):
 			member_count = 0
 			for member in role.members:
 				member_count += 1
-			if len(role.members) < 1:
+			if len(role.members) <= 1:
 				async with message.channel.typing():
 					# do expensive stuff here
-					await message.channel.send(f"There's nobody else in the {role.name} role :(")
+					await self.send_message(message.channel, f"There's nobody else in the {role.name} role :(")
 					return
 
 			num_tutors = 0
