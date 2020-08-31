@@ -118,7 +118,7 @@ class Mentioner(commands.Cog):
 			if len(role.members) < 1:
 				async with message.channel.typing():
 					# do expensive stuff here
-					await self.send_message(message.channel, f"There's nobody else in the {role.name} role :(")
+					await message.channel.send(f"There's nobody else in the {role.name} role :(")
 					return
 
 			num_tutors = 0
