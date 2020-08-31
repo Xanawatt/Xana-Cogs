@@ -98,7 +98,7 @@ class Mentioner(commands.Cog):
 
 	@commands.Cog.listener()
 	async def on_message(self, message):
-		if message.channel.id in (await self.config.guild(mesage.guild).ignored_channels()):
+		if message.channel.id in (await self.config.guild(message.guild).ignored_channels()):
 			return
 		if type(message.author) != discord.Member:
 			# throws an error when webhooks talk, this fixes it
