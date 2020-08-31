@@ -12,6 +12,7 @@ class Mentioner(commands.Cog):
 		self.config = Config.get_conf(self, identifier=30466642)
 		default_guild = {
 			"ignored_channels": [],
+			"dm_roles": [],
 		}
 		self.config.register_guild(**default_guild)
 	
@@ -68,7 +69,55 @@ class Mentioner(commands.Cog):
 				return
 			ignored_channels.remove(channel_object.id)
 		await self.send_message(ctx, f"The {channel_object.mention} channel will no longer be ignored.")
+	
+	@checks.mod_or_permissions(manage_channels=True)
+	@mentionset.command(name="addrole")
+	async def add_role(self, ctx, role): # copy pasted from add/remove channel
+		"""Add a role that will be dm'd on role ping"""
+		try:
+			if ctx.guild.get_role(int(role)) is None:
+				raise ValueError
+			role_object = ctx.guild.get_role(int(role))
+		except ValueError:
+			if len(ctx.message.role_mentions) > 0:
+				for role in ctx.message.role_mentions:
+					role_object = role
+					break # only get the first, may change this later
+			else: # must have entered a string
+				await self.send_message(ctx, f"`{str(role)}` is not a role.")
+				return # role doesn't exist
 
+		async with self.config.guild(ctx.guild).dm_roles() as dm_roles:
+			if role_object.id in dm_roles: # can only store ints not objects
+				await self.send_message(ctx, f"The {role_object.name} role is already configured for getting dms.") # don't use mention for roles, because ping bad
+				return
+			dm_roles.append(role_object.id)
+		await self.send_message(ctx, f"The {role_object.name} role will now get dms.")
+	
+	@checks.mod_or_permissions(manage_channels=True)
+	@mentionset.command(name="removerole")
+	async def remove_role(self, ctx, role):
+		"""Remove a role that previously got dm'd on role ping"""
+		try:
+			if ctx.guild.get_role(int(role)) is None:
+				raise ValueError
+			role_object = ctx.guild.get_role(int(role))
+		except ValueError:
+			if len(ctx.message.role_mentions) > 0:
+				for role in ctx.message.role_mentions:
+					role_object = role
+					break # only get the first, may change this later
+			else: # must have entered a string
+				await self.send_message(ctx, f"`{str(role)}` is not a role.")
+				return # role doesn't exist
+		
+		async with self.config.guild(ctx.guild).dm_roles() as dm_roles:
+			if role_object.id not in dm_roles: # can only store ints not objects
+				await self.send_message(ctx, f"The {role_object.name} role was not configured for getting dms.") 
+				return
+			dm_roles.remove(role_object.id)
+		await self.send_message(ctx, f"The {role_object.name} role will no longer get dms.")
+	
 	@commands.Cog.listener()
 	async def on_message(self, message):
 		if message.channel.id in (await self.config.guild(message.guild).ignored_channels()):
@@ -83,31 +132,30 @@ class Mentioner(commands.Cog):
 		if message.role_mentions is None:
 			return
 		
+		dm_roles = await (
 		roles = message.role_mentions
 		for role in roles:
 			member_count = 0
 			for member in role.members:
 				member_count += 1
 			if len(role.members) <= 1:
-				async with message.channel.typing():
-					# do expensive stuff here
-					await self.send_message(message.channel, f"There's nobody else in the {role.name} role :(")
-					return
+				await self.send_message(message.channel, f"There's nobody else in the {role.name} role :(")
+				return
 
-			num_tutors = 0
-			tutor_list = ""
+			num_dmd = 0
+			dm_members_list = ""
 			for member in role.members:
 				for role in member.roles:
-					if 'Tutor' in role.name and message.author != member:
-						tutor_list += member.name + ', '
-						num_tutors += 1
+					if role.id in (await self.config.guild(message.guild).dm_roles()) and message.author != member:
+						dm_members_list += member.name + ', '
+						num_dmd += 1
 						try:
 							dmchannel = await member.create_dm()
 							await dmchannel.send(f'{message.author} needs your help in {message.channel.mention}!')						
 						except AttributeError:
 							await self.send_message(message.channel, 'failed to send dm') # This error should probably be logged instead of sent in a channel
-			if num_tutors > 0:
-				await self.send_message(message.channel, str(member_count) + " user(s) were notified; " + tutor_list + "was notified via DM.")
+			if num_dmd > 0:
+				await self.send_message(message.channel, str(member_count) + " user(s) were notified; " + dm_members_list + "was notified via DM.")
 				return
 			else:
 				await self.send_message(message.channel, str(member_count) + " user(s) were notified.")
