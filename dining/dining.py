@@ -46,7 +46,7 @@ class Dining(commands.Cog):
 			last_station = ""
 			if "Closed" in items[0]:
 				dining_json['stations'] = "Closed"
-				em = discord.Embed(title="Title", description=json.dumps(dining_json, indent=2, separators=(',', ': '), color=0x00ff00)
+				em = discord.Embed(title="Title", description=json.dumps(dining_json, indent=2, separators=(',', ': '), color=0x00ff00))
 				ctx.channel.send(embed=em)
 				return
 
@@ -57,7 +57,7 @@ class Dining(commands.Cog):
 				else:
 					dining_json['stations'][last_station].append(item)
 
-			em = discord.Embed(title="Title", description=json.dumps(dining_json, indent=2, separators=(',', ': '), color=0x00ff00)
+			em = discord.Embed(title="Title", description=json.dumps(dining_json, indent=2, separators=(',', ': '), color=0x00ff00))
 			ctx.channel.send(embed=em)
 			return
 
