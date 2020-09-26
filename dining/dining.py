@@ -21,7 +21,7 @@ class Dining(commands.Cog):
 	
 	
 	@commands.command(name="getmeal")
-	async def get_meal(self, ctx, str: dining_court):
+	async def get_meal(self, ctx, dining_court: str):
 		"""Gets the meal options from the provided dining court"""
 		opts = Options()
 		# opts.headless = True
