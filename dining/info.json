@@ -1,0 +1,13 @@
+{
+	"author": [
+		"Xanawatt (Xanawatt#8365)"
+	],
+	"name": "Dining",
+	"description": "Get's the current meal from a dining court at Purdue",
+	"short": "This probably won't make sense if you don't go to Purdue",
+	"hidden": false,
+	"disabled": false,
+	"min_bot_version": "3.3.12",
+	"install_msg": "Thank you for installing! If you encounter any problems, I am in the official Red discord server @Xanawatt#8365. Feel free to Dm aswell.",
+	"end_user_data_statement": "This cog does not persistently store data or metadata about users."
+}
