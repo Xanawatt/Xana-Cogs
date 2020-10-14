@@ -10,5 +10,5 @@
 	"min_bot_version": "3.3.12",
 	"install_msg": "Thank you for installing! If you encounter any problems, I am in the official Red discord server @Xanawatt#8365. Feel free to Dm aswell.",
 	"end_user_data_statement": "This cog does not persistently store data or metadata about users.",
-	"requirements: ["selenium"]
+	"requirements": ["selenium"]
 }
